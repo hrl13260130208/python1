@@ -39,9 +39,25 @@ def get_next_page(html):
         for next in div_tag.find_all("button"):
             print("next:"+next.get_text())
             if "下一页" == next.get_text().strip():
-                print(num)
                 return num
         return
+
+def get_date(html):
+    soup = BeautifulSoup( html, "html.parser" )
+    for div_tag in soup.find_all("div",class_="clearfix"):
+        span = div_tag.find_all("span")
+    return span[2].get_text()
+
+def get_title(html):
+    soup = BeautifulSoup( html, "html.parser" )
+    return soup.find_all("h2")[0].get_text()
+
+def get_text(html):
+    soup = BeautifulSoup(html, "html.parser")
+    return soup.find_all("div",class_="notice-con")[0].get_text().strip().replace("\n", "")
+
+
+
 
 url="http://cz.fjzfcg.gov.cn/3500/openbidlist/f9ebc6637c3641ee9017db2a94bfe5f0/"
 
@@ -63,9 +79,12 @@ first_level_url_html=get_html(urls[0])
 print(first_level_url_html)
 get_detail_url(first_level_url_html)
 print(get_next_page(first_level_url_html))
+s_html=get_html(detail_url[0])
+print(detail_url[0])
+print(get_date(s_html))
+print(get_title(s_html))
 
-
-
+print(get_text(s_html))
 
 
 
